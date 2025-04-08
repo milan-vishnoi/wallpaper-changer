@@ -8,3 +8,14 @@ To access app on Expo Go, the wifi and PC needs to be on same wifi.
 
 If PC and phone are connected to the different wifi and you want to run the app in mobile using Expo Go app then use following command to start:
 `npx expo start --tunnel`
+
+### Other Packages installed :
+| Package                          | Why it’s needed                                               |
+|----------------------------------|----------------------------------------------------------------|
+| `@react-navigation/native`       | Core navigation logic for React Native apps                   |
+| `@react-navigation/bottom-tabs`  | Enables bottom tab bar navigation                             |
+| `react-native-screens`           | Optimizes screen mounting/unmounting for performance          |
+| `react-native-safe-area-context` | Prevents UI overlap with notches, status bars, etc.           |
+| `react-native-gesture-handler`   | Handles complex gestures (swipe, tap, long-press, etc.)       |
+| `react-native-reanimated`        | Enables high-performance animations and smooth transitions     |
+| `react-native-svg`               | Adds support for SVG rendering (icons, vector graphics)        |
