@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, Button } from 'react-native';
 
 export default function HomeScreen() {
     const changeWallpaper = () => {
@@ -13,12 +13,12 @@ export default function HomeScreen() {
     };
     
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Home</Text>
         <Button title="Change Wallpaper" onPress={changeWallpaper} />
         <View style={{ marginVertical: 20 }} />
         <Button title="Select Folder" onPress={selectFolder} />
-        </View>
+        </SafeAreaView>
     );
     }
 
