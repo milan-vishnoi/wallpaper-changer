@@ -28,10 +28,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#E1B949',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: 20,
     },
     header: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 40,
+        color: '#222'
     },
 });

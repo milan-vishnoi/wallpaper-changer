@@ -18,15 +18,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#E1B949',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: 16
     },
     header: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: '#222'
     },
     image: {
         width: '90%',
-        height: '85%',
-        borderRadius: 10,
+        aspectRatio: 9/16,
+        borderRadius: 12,
+        backgroundColor: '#ccc',
     },
 });
