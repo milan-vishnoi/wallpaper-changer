@@ -1,15 +1,34 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
 
 export default function HomeScreen() {
+  const [wallpapers, setWallpapers] = useState([]);
     const changeWallpaper = () => {
         console.log('Change Wallpaper');
         alert('Wallpaper Changed!');
     };
     
-    const selectFolder = () => {
-        console.log('Select Folder');
-        alert('Folder Selected!');
+    const selectFolder = async () => {
+      try {
+        const result = await DocumentPicker.getDocumentAsync({
+          type: 'image/*',
+          multiple: true,
+          copyToCacheDirectory: true,
+        });
+    
+        if (result?.assets) {
+          const selectedWallpapers = result.assets.map(asset => asset.uri);
+          setWallpapers(selectedWallpapers);
+          console.log('Selected wallpapers:', selectedWallpapers);
+        } else {
+          console.log('Document selection cancelled');
+        }
+      }
+      catch (error) {
+        console.error('Error selecting images:', error);
+      }
+
     };
     
     return (
