@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, FlatList, Image } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 
 export default function HomeScreen() {
@@ -41,6 +41,27 @@ export default function HomeScreen() {
         <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={selectFolder}>
         <Text style={styles.buttonText}>Select Folder</Text>
       </TouchableOpacity>
+      { wallpapers.length > 0 && (
+        <>
+        <Text style={styles.previewLabel}>Selected Wallpapers:</Text>
+        <FlatList
+          data={wallpapers}
+          keyExtractor={(item, index) => item + index}
+          horizontal
+          contentContainerStyle={{ marginTop: 20 }}
+          renderItem={({ item }) => (
+            <Image source={{ uri: item }} style={styles.imageThumbnail} />
+          )}
+        />
+        </>
+
+      )} 
+      {
+        wallpapers.length === 0 && (
+          <Text style={{ color: '#222', fontSize: 16 }}>No wallpapers selected</Text>
+      )
+
+      }
         </SafeAreaView>
     );
     }
@@ -76,5 +97,19 @@ const styles = StyleSheet.create({
       },
       secondaryButton: {
         backgroundColor: '#2F6690',
+      },
+      previewLabel: {
+        fontSize: 18,
+        fontWeight: '500',
+        marginTop: 30,
+        color: '#333',
+      },
+      imageThumbnail: {
+        width: 100,
+        height: 160,
+        borderRadius: 10,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        backgroundColor: '#ccc'
       },
 });
