@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { WallpaperContext } from '../context/WallpaperContext';
 
 export default function HomeScreen() {
-   const {wallpapers, changeWallpaper, setSelectedWallpapers, folderPath} = useContext(WallpaperContext);
+   const {wallpapers, changeWallpaper, setSelectedWallpapers, folderPath, autoChange,setAutoChange} = useContext(WallpaperContext);
     
     const selectFolder = async () => {
       try {
@@ -30,38 +30,53 @@ export default function HomeScreen() {
     };
     
     return (
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Home</Text>
         <Pressable style={styles.button} onPress={changeWallpaper}>
-        <Text style={styles.buttonText}>Change Wallpaper</Text>
+          <Text style={styles.buttonText}>Change Wallpaper</Text>
+        </Pressable>
+        <View style={{ marginTop: 10 }} />
+        <Pressable
+          style={[
+            styles.button,
+            { backgroundColor: autoChange ? "red" : "green" },
+          ]}
+          onPress={() => setAutoChange((prev) => !prev)}
+        >
+          <Text style={styles.buttonText}>
+            {autoChange ? "Stop Auto Change" : "Start Auto Change"}
+          </Text>
         </Pressable>
         <View style={{ marginVertical: 20 }} />
-        <Pressable style={[styles.button, styles.secondaryButton]} onPress={selectFolder}>
-        <Text style={styles.buttonText}>Select Folder</Text>
-      </Pressable>
-      { wallpapers.length > 0 && (
-        <>
-        <Text style={styles.path}>Selected Folder: {folderPath ?? 'None'}</Text>
-        <Text style={styles.previewLabel}>Selected Wallpapers:</Text>
-        <FlatList
-          data={wallpapers}
-          keyExtractor={(item, index) => item + index}
-          horizontal
-          contentContainerStyle={{ marginTop: 20 }}
-          renderItem={({ item }) => (
-            <Image source={{ uri: item }} style={styles.imageThumbnail} />
-          )}
-        />
-        </>
-
-      )} 
-      {
-        wallpapers.length === 0 && (
-          <Text style={{ color: '#222', fontSize: 16 }}>No wallpapers selected</Text>
-      )
-
-      }
-        </SafeAreaView>
+        <Pressable
+          style={[styles.button, styles.secondaryButton]}
+          onPress={selectFolder}
+        >
+          <Text style={styles.buttonText}>Select Folder</Text>
+        </Pressable>
+        {wallpapers.length > 0 && (
+          <>
+            <Text style={styles.path}>
+              Selected Folder: {folderPath ?? "None"}
+            </Text>
+            <Text style={styles.previewLabel}>Selected Wallpapers:</Text>
+            <FlatList
+              data={wallpapers}
+              keyExtractor={(item, index) => item + index}
+              horizontal
+              contentContainerStyle={{ marginTop: 20 }}
+              renderItem={({ item }) => (
+                <Image source={{ uri: item }} style={styles.imageThumbnail} />
+              )}
+            />
+          </>
+        )}
+        {wallpapers.length === 0 && (
+          <Text style={{ color: "#222", fontSize: 16 }}>
+            No wallpapers selected
+          </Text>
+        )}
+      </SafeAreaView>
     );
     }
 
