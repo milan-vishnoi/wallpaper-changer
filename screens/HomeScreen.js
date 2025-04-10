@@ -5,9 +5,15 @@ import { WallpaperContext } from '../context/WallpaperContext';
 
 export default function HomeScreen() {
    const {wallpapers, changeWallpaper, setSelectedWallpapers, folderPath, autoChange,setAutoChange} = useContext(WallpaperContext);
+
     
     const selectFolder = async () => {
       try {
+        const permissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permissions.granted) {
+          alert('Permission to access media library is required!');
+          return;
+        }
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsMultipleSelection: true,
