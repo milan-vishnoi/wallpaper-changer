@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, Pressable, FlatList, Image, Pressable } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 
 export default function HomeScreen() {
@@ -34,13 +34,13 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Home</Text>
-        <TouchableOpacity style={styles.button} onPress={changeWallpaper}>
+        <Pressable style={styles.button} onPress={changeWallpaper}>
         <Text style={styles.buttonText}>Change Wallpaper</Text>
-        </TouchableOpacity>
+        </Pressable>
         <View style={{ marginVertical: 20 }} />
-        <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={selectFolder}>
+        <Pressable style={[styles.button, styles.secondaryButton]} onPress={selectFolder}>
         <Text style={styles.buttonText}>Select Folder</Text>
-      </TouchableOpacity>
+      </Pressable>
       { wallpapers.length > 0 && (
         <>
         <Text style={styles.previewLabel}>Selected Wallpapers:</Text>
