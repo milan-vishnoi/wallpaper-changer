@@ -1,13 +1,10 @@
-import React,{useState} from 'react';
-import { StyleSheet, Text, SafeAreaView, View, Pressable, FlatList, Image, Pressable } from 'react-native';
+import React,{useContext} from 'react';
+import { StyleSheet, Text, SafeAreaView, View, Pressable, FlatList, Image } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
+import { WallpaperContext } from '../context/WallpaperContext';
 
 export default function HomeScreen() {
-  const [wallpapers, setWallpapers] = useState([]);
-    const changeWallpaper = () => {
-        console.log('Change Wallpaper');
-        alert('Wallpaper Changed!');
-    };
+   const {wallpapers, changeWallpaper, setSelectedWallpapers} = useContext(WallpaperContext);
     
     const selectFolder = async () => {
       try {
@@ -19,7 +16,7 @@ export default function HomeScreen() {
     
         if (result?.assets) {
           const selectedWallpapers = result.assets.map(asset => asset.uri);
-          setWallpapers(selectedWallpapers);
+          setSelectedWallpapers(selectedWallpapers);
           console.log('Selected wallpapers:', selectedWallpapers);
         } else {
           console.log('Document selection cancelled');

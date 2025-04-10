@@ -4,11 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import PreviewScreen from './screens/PreviewScreen';
+import { WallpaperProvider } from './context/WallpaperContext';
 
 export default function App() {
   const Tab = createBottomTabNavigator();
 
   return (
+    <WallpaperProvider>
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
@@ -28,6 +30,7 @@ export default function App() {
 
       </Tab.Navigator>
     </NavigationContainer>
+    </WallpaperProvider>
   );
   
 }
