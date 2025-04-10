@@ -5,6 +5,7 @@ export const WallpaperContext = createContext();
 export function WallpaperProvider({ children }) {
   const [wallpapers, setWallpapers] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [folderPath, setFolderPath] = useState(''); // State to hold the folder path
 
   const changeWallpaper = () => {
     if (wallpapers.length > 0) {
@@ -13,14 +14,22 @@ export function WallpaperProvider({ children }) {
       console.log('No wallpapers available to change.');
     }
   };
-  const setSelectedWallpapers = (newWallpapers) => {
+  const setSelectedWallpapers = (newWallpapers, path='') => {
     setWallpapers(newWallpapers);
     setCurrentIndex(0); // Reset to the first wallpaper when new wallpapers are set
-    console.log('Wallpapers updated:', newWallpapers);
+    setFolderPath(path); // Set the folder path if provided
   };   
 
   return (
-    <WallpaperContext.Provider value={{ wallpapers, setSelectedWallpapers, currentWallpaper: wallpapers[currentIndex], changeWallpaper }}>
+    <WallpaperContext.Provider
+      value={{
+        wallpapers,
+        setSelectedWallpapers,
+        currentWallpaper: wallpapers[currentIndex],
+        changeWallpaper,
+        folderPath,
+      }}
+    >
       {children}
     </WallpaperContext.Provider>
   );

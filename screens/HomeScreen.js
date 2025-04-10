@@ -1,25 +1,26 @@
 import React,{useContext} from 'react';
 import { StyleSheet, Text, SafeAreaView, View, Pressable, FlatList, Image } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 import { WallpaperContext } from '../context/WallpaperContext';
 
 export default function HomeScreen() {
-   const {wallpapers, changeWallpaper, setSelectedWallpapers} = useContext(WallpaperContext);
+   const {wallpapers, changeWallpaper, setSelectedWallpapers, folderPath} = useContext(WallpaperContext);
     
     const selectFolder = async () => {
       try {
-        const result = await DocumentPicker.getDocumentAsync({
-          type: 'image/*',
-          multiple: true,
-          copyToCacheDirectory: true,
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsMultipleSelection: true,
+          selectionLimit: 0, // Set to 0 for unlimited selection
         });
     
-        if (result?.assets) {
+        if (!result.canceled && result?.assets) {
           const selectedWallpapers = result.assets.map(asset => asset.uri);
-          setSelectedWallpapers(selectedWallpapers);
-          console.log('Selected wallpapers:', selectedWallpapers);
+          const folderPath = result.assets[0].uri.split('/').slice(0, -1).join('/'); // Get the folder path from the first selected image
+          setSelectedWallpapers(selectedWallpapers, folderPath); 
+          alert(`Selected ${selectedWallpapers.length} wallpapers`);
         } else {
-          console.log('Document selection cancelled');
+          alert('Image selection cancelled');
         }
       }
       catch (error) {
@@ -40,6 +41,7 @@ export default function HomeScreen() {
       </Pressable>
       { wallpapers.length > 0 && (
         <>
+        <Text style={styles.path}>Selected Folder: {folderPath ?? 'None'}</Text>
         <Text style={styles.previewLabel}>Selected Wallpapers:</Text>
         <FlatList
           data={wallpapers}
@@ -108,5 +110,13 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         marginHorizontal: 5,
         backgroundColor: '#ccc'
+      },
+      path: {
+        fontSize: 12,
+        fontWeight: '500',
+        marginTop: 10,
+        color: '#333',
+        paddingHorizontal: 10,
+        textAlign: 'center',
       },
 });
