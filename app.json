@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
+      }, 
+      "permissions": ["SET_WALLPAPER"],
       "package": "com.anonymous.MotivationalBg"
     },
     "web": {
