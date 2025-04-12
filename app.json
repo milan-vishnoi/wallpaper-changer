@@ -21,7 +21,10 @@
         "backgroundColor": "#ffffff"
       }, 
       "permissions": ["SET_WALLPAPER"],
-      "package": "com.anonymous.MotivationalBg"
+      "package": "com.anonymous.MotivationalBg",
+      "compileSdkVersion": 34,
+      "targetSdkVersion": 34,
+      "buildToolsVersion": "34.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
