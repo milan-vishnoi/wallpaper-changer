@@ -19,3 +19,13 @@ If PC and phone are connected to the different wifi and you want to run the app 
 | `react-native-gesture-handler`   | Handles complex gestures (swipe, tap, long-press, etc.)       |
 | `react-native-reanimated`        | Enables high-performance animations and smooth transitions     |
 | `react-native-svg`               | Adds support for SVG rendering (icons, vector graphics)        |
+| `react-native-set-wallpaper`     | Adds support for setting the background wallpaper        
+                 |
+
+
+## To build apk used the following commands:
+1. `npx expo prebuild`
+2. `npm install -g eas-cli`
+3. `eas login`
+4. `eas build:configure`
+5. `eas build --platform android --profile preview` (we can use --profile production also for more optimized release builds)
