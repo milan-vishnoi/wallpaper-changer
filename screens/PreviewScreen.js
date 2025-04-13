@@ -1,20 +1,19 @@
 import React, {useContext} from 'react';
 import { SafeAreaView, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { WallpaperContext } from '../context/WallpaperContext';
-import WallpaperManager from 'react-native-set-wallpaper';
+import WallpaperManager from 'react-native-wallpaper-manager';
 
 export default function PreviewScreen() {
     const { currentWallpaper } = useContext(WallpaperContext);
     const setAsWallpaper = () => {
         if(currentWallpaper) {
-            WallpaperManager.setWallpaper({uri: currentWallpaper}, (response)=> {
+            const response = WallpaperManager.setWallpaper({uri: currentWallpaper});           
                 if (response.status === 'success') {
                     console.log('Wallpaper set result:', response);
                     alert('Wallpaper set successfully!');
                 } else {
                     alert('Failed to set wallpaper.');
                 }
-            });
         } else {
             alert('No wallpaper selected to set.');
         }
