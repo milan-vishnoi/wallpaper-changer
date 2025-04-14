@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import { SafeAreaView, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { WallpaperContext } from '../context/WallpaperContext';
-import WallpaperManager from 'react-native-wallpaper-manager';
+import * as WallpaperManager from 'expo-wallpaper-manager';
 
 export default function PreviewScreen() {
     const { currentWallpaper } = useContext(WallpaperContext);
