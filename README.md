@@ -29,3 +29,12 @@ If PC and phone are connected to the different wifi and you want to run the app 
 3. `eas login`
 4. `eas build:configure`
 5. `eas build --platform android --profile preview` (we can use --profile production also for more optimized release builds)
+
+## To build locally:
+1. [Install Andorid SDK](https://developer.android.com/studio#cmdline-tools)
+2. Set Environment Variables (ANDROID_HOME and Path)
+3. Run the following command from cmd : `sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"` (run `sdkmanager --list` and `adb --version` to check if its successfully installed)
+4. [Download the ndk](https://github.com/android/ndk/wiki/Unsupported-Downloads)
+5. Run `.\gradlew clean` from android/ directory
+6. a. Run `.\gradlew assembleRelease` to get .apk file (good for local testing)
+   b. Run `.\gradlew bundleRelease` to get .aab file (for PlayStore upload)
