@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
 
 export const WallpaperContext = createContext();
 
@@ -13,12 +14,23 @@ export function WallpaperProvider({ children }) {
     if (autoChange && wallpapers.length > 1) {
       interval = setInterval(() => {
         changeWallpaper();
+        scheduleNotification(wallpapers[currentIndex]);
       }, 10000); // Change wallpaper every 5 seconds
     }
     return () =>{ 
         if(interval) 
         clearInterval(interval)}; // Cleanup on unmount or when autoChange changes
   }, [autoChange, wallpapers]);
+
+  useEffect(() => {
+ (async () => {
+      const { status } = await Notifications.getPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Notification permissions not granted');
+        await Notifications.requestPermissionsAsync();
+      }
+    })();
+  }, []);
 
   const changeWallpaper = () => {
     if (wallpapers.length > 0) {
@@ -31,7 +43,19 @@ export function WallpaperProvider({ children }) {
     setWallpapers(newWallpapers);
     setCurrentIndex(0); // Reset to the first wallpaper when new wallpapers are set
     setFolderPath(path); // Set the folder path if provided
-  };   
+  };
+
+  const scheduleNotification = async (imageUri) => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Wallpaper Changed",
+        body: "Your wallpaper has been changed!",
+        data: { imageUri },
+      },
+      trigger: null, // Trigger immediately
+    });
+  };
+
 
   return (
     <WallpaperContext.Provider
