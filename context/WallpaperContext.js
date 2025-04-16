@@ -9,12 +9,11 @@ export function WallpaperProvider({ children }) {
   const [folderPath, setFolderPath] = useState('');
   const [autoChange, setAutoChange] = useState(false);
 
-  useEffect(() => {
+  useEffect(  () => {
     let interval;
     if (autoChange && wallpapers.length > 1) {
-      interval = setInterval(() => {
-        changeWallpaper();
-        scheduleNotification(wallpapers[currentIndex]);
+      interval = setInterval( async () => {
+        await changeWallpaper();
       }, 10000); // Change wallpaper every 5 seconds
     }
     return () =>{ 
@@ -24,7 +23,7 @@ export function WallpaperProvider({ children }) {
 
   useEffect(() => {
  (async () => {
-      const { status } = await Notifications.getPermissionsAsync();
+      const { status} = await Notifications.getPermissionsAsync();
       if (status !== 'granted') {
         console.log('Notification permissions not granted');
         await Notifications.requestPermissionsAsync();
@@ -32,9 +31,10 @@ export function WallpaperProvider({ children }) {
     })();
   }, []);
 
-  const changeWallpaper = () => {
+  const changeWallpaper = async () => {
     if (wallpapers.length > 0) {
       setCurrentIndex(prevIndex => (prevIndex + 1) % wallpapers.length);
+      await scheduleNotification(wallpapers[currentIndex]);
     } else {
       console.log('No wallpapers available to change.');
     }
@@ -52,9 +52,9 @@ export function WallpaperProvider({ children }) {
         content: {
           title: "Wallpaper Changed",
           body: "Your wallpaper has been changed!",
-          data: { imageUri },
+          attachments: [{ uri: imageUri }],
         },
-        trigger: null, // Trigger immediately
+        trigger: {seconds: 5}, // Trigger immediately
       });
       alert("Wallpaper changed successfully!");
     } catch (error) {

@@ -9,6 +9,13 @@ import { WallpaperProvider } from './context/WallpaperContext';
 export default function App() {
   const Tab = createBottomTabNavigator();
 
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(notification => {
+      alert('Notification received in foreground:', notification);
+    });
+    return () => subscription.remove();
+  }, []);
+
   return (
     <WallpaperProvider>
     <NavigationContainer>
