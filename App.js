@@ -11,7 +11,18 @@ export default function App() {
 
   useEffect(() => {
     const subscription = Notifications.addNotificationReceivedListener(notification => {
-      alert('Notification received in foreground:', notification);
+      alert(
+        `Notification received in foreground:\n` +
+        `Title: ${notification.request.content.title}\n` +
+        `Body: ${notification.request.content.body}`
+      );
+    });
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true, // Show the alert even if the app is in the foreground
+        shouldPlaySound: true, 
+        shouldSetBadge: true, 
+      }),
     });
     return () => subscription.remove();
   }, []);
