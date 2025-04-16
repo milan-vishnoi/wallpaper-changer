@@ -46,14 +46,22 @@ export function WallpaperProvider({ children }) {
   };
 
   const scheduleNotification = async (imageUri) => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Wallpaper Changed",
-        body: "Your wallpaper has been changed!",
-        data: { imageUri },
-      },
-      trigger: null, // Trigger immediately
-    });
+    alert("Setting the wallpaper");
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Wallpaper Changed",
+          body: "Your wallpaper has been changed!",
+          data: { imageUri },
+        },
+        trigger: null, // Trigger immediately
+      });
+      alert("Wallpaper changed successfully!");
+    } catch (error) {
+      console.error("Error scheduling notification:", error);
+      alert("Failed to change wallpaper.", error.message);
+    }
+
   };
 
 
