@@ -14,8 +14,7 @@ export default function App() {
     const subscription = Notifications.addNotificationReceivedListener(notification => {
       alert(
         `Notification received in foreground:\n` +
-        `Title: ${notification.request.content.title}\n` +
-        `Body: ${notification.request.content.body}`
+        `${notification.request.content}\n` 
       );
     });
     Notifications.setNotificationHandler({
