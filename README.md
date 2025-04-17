@@ -19,9 +19,8 @@ If PC and phone are connected to the different wifi and you want to run the app 
 | `react-native-gesture-handler`   | Handles complex gestures (swipe, tap, long-press, etc.)       |
 | `react-native-reanimated`        | Enables high-performance animations and smooth transitions     |
 | `react-native-svg`               | Adds support for SVG rendering (icons, vector graphics)        |
-| `react-native-set-wallpaper`     | Adds support for setting the background wallpaper        
+| `@react-native-async-storage/async-storage` |  For peristent storage        
                  |
-
 
 ## To build apk used the following commands:
 1. `npx expo prebuild`
