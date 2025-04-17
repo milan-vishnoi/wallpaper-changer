@@ -4,7 +4,15 @@ import * as ImagePicker from 'expo-image-picker';
 import { WallpaperContext } from '../context/WallpaperContext';
 
 export default function HomeScreen() {
-   const {wallpapers, changeWallpaper, setSelectedWallpapers, folderPath, autoChange,setAutoChange} = useContext(WallpaperContext);
+   const {
+     wallpapers,
+     changeWallpaper,
+     setSelectedWallpapers,
+     folderPath,
+     autoChange,
+     setAutoChange,
+     clearSelection,
+   } = useContext(WallpaperContext);
 
     
     const selectFolder = async () => {
@@ -75,6 +83,12 @@ export default function HomeScreen() {
                 <Image source={{ uri: item }} style={styles.imageThumbnail} />
               )}
             />
+          <Pressable
+          style={[styles.button, styles.secondaryButton]}
+          onPress={clearSelection}
+        >
+          <Text style={styles.buttonText}>Clear Selections</Text>
+        </Pressable>
           </>
         )}
         {wallpapers.length === 0 && (
