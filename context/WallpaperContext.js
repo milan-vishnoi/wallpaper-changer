@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const WallpaperContext = createContext();
 
@@ -9,12 +10,40 @@ export function WallpaperProvider({ children }) {
   const [folderPath, setFolderPath] = useState('');
   const [autoChange, setAutoChange] = useState(false);
 
+  useEffect(() => {
+    const loadStoredData = async () => {
+      try {
+        const storedWallpapers = await AsyncStorage.getItem('wallpapers');
+        const storedIndex = await AsyncStorage.getItem('currentIndex');
+        const storedAutoChange = await AsyncStorage.getItem('autoChange');
+        const storedFolderPath = await AsyncStorage.getItem('folderPath');
+
+        if (storedWallpapers) {
+          setWallpapers(JSON.parse(storedWallpapers));
+        }
+        if (storedIndex) {
+          setCurrentIndex(parseInt(storedIndex, 10));
+        }
+        if (storedAutoChange) {
+          setAutoChange(storedAutoChange === 'true');
+        }
+        if (storedFolderPath) {
+          setFolderPath(storedFolderPath);
+        }
+      } catch (error) {
+        alert("Error loading wallpapers from storage:", error);
+      }
+    };
+    loadStoredData();
+  }, []);
+
   useEffect(  () => {
+    AsyncStorage.setItem('autoChange', autoChange.toString());
     let interval;
     if (autoChange && wallpapers.length > 1) {
       interval = setInterval( async () => {
         await changeWallpaper();
-      }, 10000); // Change wallpaper every 5 seconds
+      }, 10000); // Change wallpaper every 10 seconds
     }
     return () =>{ 
         if(interval) 
@@ -34,6 +63,7 @@ export function WallpaperProvider({ children }) {
   const changeWallpaper = async () => {
     if (wallpapers.length > 0) {
       setCurrentIndex(prevIndex => (prevIndex + 1) % wallpapers.length);
+      AsyncStorage.setItem('currentIndex', ((currentIndex + 1) % wallpapers.length).toString());
       await scheduleNotification(wallpapers[currentIndex]);
     } else {
       console.log('No wallpapers available to change.');
@@ -41,8 +71,13 @@ export function WallpaperProvider({ children }) {
   };
   const setSelectedWallpapers = (newWallpapers, path='') => {
     setWallpapers(newWallpapers);
+    AsyncStorage.setItem('wallpapers', JSON.stringify(newWallpapers)); 
+
     setCurrentIndex(0); // Reset to the first wallpaper when new wallpapers are set
-    setFolderPath(path); // Set the folder path if provided
+    AsyncStorage.setItem('currentIndex', '0');
+
+    setFolderPath(path); 
+    AsyncStorage.setItem('folderPath',path);
   };
 
   const scheduleNotification = async (imageUri) => {
@@ -56,10 +91,22 @@ export function WallpaperProvider({ children }) {
         },
         trigger: {seconds: 5}, // Trigger immediately
       });
-      alert("Wallpaper changed successfully!");
     } catch (error) {
       console.error("Error scheduling notification:", error);
       alert("Failed to change wallpaper.", error.message);
+    }
+  };
+
+  const clearSelection = async () => {
+    try {
+      setWallpapers([]);
+      setCurrentIndex(0);
+      setFolderPath('');
+      setAutoChange(false);
+  
+      await AsyncStorage.clear(); // Clear all stored data
+    } catch (error) {
+      alert("Error clearing selections:", error);
     }
 
   };
@@ -74,7 +121,8 @@ export function WallpaperProvider({ children }) {
         changeWallpaper,
         folderPath,
         autoChange,
-        setAutoChange
+        setAutoChange,
+        clearSelection
       }}
     >
       {children}
