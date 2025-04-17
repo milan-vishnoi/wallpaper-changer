@@ -70,21 +70,21 @@ export default function HomeScreen() {
         </Pressable>
         {wallpapers.length > 0 && (
           <>
-            <Text style={styles.path}>
+            {/* <Text style={styles.path}>
               Selected Folder: {folderPath ?? "None"}
-            </Text>
+            </Text> */}
             <Text style={styles.previewLabel}>Selected Wallpapers:</Text>
             <FlatList
               data={wallpapers}
               keyExtractor={(item, index) => item + index}
               horizontal
-              contentContainerStyle={{ marginTop: 20 }}
+              contentContainerStyle={{ marginVertical: 10 }}
               renderItem={({ item }) => (
                 <Image source={{ uri: item }} style={styles.imageThumbnail} />
               )}
             />
           <Pressable
-          style={[styles.button, styles.secondaryButton]}
+          style={[styles.button, styles.secondaryButton, { marginBottom: 20 }]}
           onPress={clearSelection}
         >
           <Text style={styles.buttonText}>Clear Selections</Text>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#3E3E3E',
-        paddingVertical: 14,
+        paddingVertical: 10,
         paddingHorizontal: 30,
         borderRadius: 12,
         width: '80%',

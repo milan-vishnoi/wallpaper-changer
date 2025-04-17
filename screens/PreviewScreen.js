@@ -21,9 +21,9 @@ export default function PreviewScreen() {
     return (
         <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Preview</Text>
-        <Pressable style={styles.button} onPress={setAsWallpaper}>
+        {/* <Pressable style={styles.button} onPress={setAsWallpaper}>
             <Text style={styles.buttonText}>Set as Wallpaper</Text>
-        </Pressable>
+        </Pressable> */}
         <Image
             source={{ uri: currentWallpaper }} // Placeholder image
             style={styles.image}
