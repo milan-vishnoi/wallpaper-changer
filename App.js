@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import PreviewScreen from './screens/PreviewScreen';
 import { WallpaperProvider } from './context/WallpaperContext';
 import * as Notifications from 'expo-notifications';
+import { navigationRef } from './navigationRef';
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -14,8 +15,9 @@ export default function App() {
     const subscription = Notifications.addNotificationReceivedListener(notification => {
       alert(
         `Notification received in foreground:\n` +
-        `${notification.request.content}\n` 
+        `${notification.request.content.data}\n` 
       );
+      navigationRef?.current?.navigate('Preview');
     });
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
@@ -29,7 +31,7 @@ export default function App() {
 
   return (
     <WallpaperProvider>
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Tab.Navigator
         screenOptions={{
           headerStyle: { backgroundColor: '#EECE74' },
