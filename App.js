@@ -13,10 +13,7 @@ export default function App() {
 
   useEffect(() => {
     const subscription = Notifications.addNotificationReceivedListener(notification => {
-      alert(
-        `Notification received in foreground:\n` +
-        `${notification.request.content.data}\n` 
-      );
+      alert('Notification received in foreground ');
       navigationRef?.current?.navigate('Preview');
     });
     Notifications.setNotificationHandler({
