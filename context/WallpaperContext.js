@@ -113,7 +113,7 @@ export function WallpaperProvider({ children }) {
    const updateAutoChange = async (value) => {
     setAutoChange(value);
     await AsyncStorage.setItem('autoChange', value.toString());
-    console.log(`Auto change wallpaper set to: ${value}`);  }
+ }
 
 
   return (
