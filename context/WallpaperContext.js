@@ -18,6 +18,7 @@ export function WallpaperProvider({ children }) {
         const storedAutoChange = await AsyncStorage.getItem('autoChange');
         const storedFolderPath = await AsyncStorage.getItem('folderPath');
 
+    
         if (storedWallpapers) {
           setWallpapers(JSON.parse(storedWallpapers));
         }
@@ -38,7 +39,6 @@ export function WallpaperProvider({ children }) {
   }, []);
 
   useEffect(  () => {
-    AsyncStorage.setItem('autoChange', autoChange.toString());
     let interval;
     if (autoChange && wallpapers.length > 1) {
       interval = setInterval( async () => {
@@ -110,6 +110,10 @@ export function WallpaperProvider({ children }) {
     }
 
   };
+   const updateAutoChange = async (value) => {
+    setAutoChange(value);
+    await AsyncStorage.setItem('autoChange', value.toString());
+    console.log(`Auto change wallpaper set to: ${value}`);  }
 
 
   return (
@@ -121,7 +125,7 @@ export function WallpaperProvider({ children }) {
         changeWallpaper,
         folderPath,
         autoChange,
-        setAutoChange,
+        setAutoChange : updateAutoChange,
         clearSelection
       }}
     >
