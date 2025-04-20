@@ -2,6 +2,7 @@ import React,{useContext} from 'react';
 import { StyleSheet, Text, SafeAreaView, View, Pressable, FlatList, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { WallpaperContext } from '../context/WallpaperContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
    const {
@@ -55,7 +56,10 @@ export default function HomeScreen() {
             styles.button,
             { backgroundColor: autoChange ? "red" : "green" },
           ]}
-          onPress={() => setAutoChange((prev) => !prev)}
+          onPress={() => {
+            AsyncStorage.setItem("autoChange", (!autoChange).toString());
+            setAutoChange((prev) => !prev);
+          }}
         >
           <Text style={styles.buttonText}>
             {autoChange ? "Stop Auto Change" : "Start Auto Change"}
